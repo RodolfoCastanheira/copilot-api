@@ -2,17 +2,8 @@ import { countTokens } from "gpt-tokenizer/model/gpt-4o"
 
 import type { Message } from "~/services/copilot/create-chat-completions"
 
-export const getTokenCount = (messages: Array<Message>) => {
-  const input = messages.filter(
-    (m) => m.role !== "assistant" && typeof m.content === "string",
-  )
-  const output = messages.filter((m) => m.role === "assistant")
-
-  const inputTokens = countTokens(input)
-  const outputTokens = countTokens(output)
-
-  return {
-    input: inputTokens,
-    output: outputTokens,
-  }
-}
+/**
+ * Count tokens for a list of chat messages following OpenAI's guidelines.
+ * See https://github.com/openai/openai-cookbook/blob/main/examples/How_to_count_tokens_with_tiktoken.ipynb
+ */
+export const getTokenCount = (messages: Array<Message>) => countTokens(messages)
